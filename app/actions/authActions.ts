@@ -4,7 +4,9 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 export async function login(password: string) {
-  if (password === "admin") {
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (adminPassword && password === adminPassword) {
     const cookieStore = await cookies();
     cookieStore.set("auth_token", "true", {
       httpOnly: true,
