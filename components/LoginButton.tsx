@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { login, logout } from "@/app/actions/authActions";
 import { LogIn, LogOut, Loader2 } from "lucide-react";
 
@@ -11,6 +12,7 @@ interface LoginButtonProps {
 export const LoginButton: React.FC<LoginButtonProps> = ({
   isAuthenticated,
 }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const [password, setPassword] = useState("");
@@ -26,6 +28,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
       if (result.success) {
         setShowInput(false);
         setPassword("");
+        router.refresh();
       } else {
         setError(result.error || "Login failed");
       }
@@ -39,6 +42,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
   const handleLogout = async () => {
     setIsLoading(true);
     await logout();
+    router.refresh();
     setIsLoading(false);
   };
 
