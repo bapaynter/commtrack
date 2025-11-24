@@ -64,23 +64,41 @@ const CommissionCard = ({
             {item.clientName}
           </p>
 
-          {(item.images?.references?.length > 0 ||
-            item.images?.drafts?.length > 0) && (
-            <div className="flex -space-x-2 mb-3">
-              {[
-                ...(item.images.references || []),
-                ...(item.images.drafts || []),
-              ]
-                .slice(0, 3)
-                .map((url, i) => (
-                  <img
-                    key={i}
-                    src={url}
-                    className="w-6 h-6 rounded-full ring-2 ring-white dark:ring-gray-800 object-cover"
-                    alt=""
-                  />
-                ))}
+          {item.images?.finals?.length > 0 ? (
+            <div className="mb-3 w-full h-32 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-900">
+              <img
+                src={item.images.finals[0]}
+                alt="Final Piece"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              />
             </div>
+          ) : (
+            (item.images?.references?.length > 0 ||
+              item.images?.drafts?.length > 0) && (
+              <div className="flex -space-x-2 mb-3">
+                {[
+                  ...(item.images.references || []),
+                  ...(item.images.drafts || []),
+                ]
+                  .slice(0, 3)
+                  .map((url, i) => (
+                    <div key={i} className="relative w-6 h-6 hover:z-10">
+                      <img
+                        src={url}
+                        className="peer w-full h-full rounded-full ring-2 ring-white dark:ring-gray-800 object-cover cursor-zoom-in"
+                        alt=""
+                      />
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden peer-hover:block w-32 h-32 rounded-lg shadow-xl border-2 border-white dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden z-50 pointer-events-none">
+                        <img
+                          src={url}
+                          className="w-full h-full object-cover"
+                          alt="Preview"
+                        />
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )
           )}
 
           <div className="flex items-center justify-between pt-2 border-t border-gray-50 dark:border-gray-700">
