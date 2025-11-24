@@ -64,26 +64,26 @@ export const ImageManager: React.FC<ImageManagerProps> = ({
   return (
     <div className="mb-6">
       <div className="flex items-center justify-between mb-2">
-        <h4 className="text-sm font-medium text-gray-700 flex items-center gap-2">
+        <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
           <ImageIcon className="w-4 h-4" /> {label}
         </h4>
         <button
           onClick={() => setIsAdding(!isAdding)}
-          className="text-xs text-indigo-600 hover:text-indigo-800 font-medium"
+          className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium"
         >
           {isAdding ? "Cancel" : "+ Add Image"}
         </button>
       </div>
 
       {isAdding && (
-        <div className="mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200 animate-fade-in">
+        <div className="mb-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 animate-fade-in">
           <div className="flex gap-4 mb-3 text-sm">
             <button
               onClick={() => setMode("url")}
               className={`flex items-center gap-1 pb-1 border-b-2 transition-colors ${
                 mode === "url"
-                  ? "border-indigo-600 text-indigo-600 font-medium"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
+                  ? "border-indigo-600 dark:border-indigo-400 text-indigo-600 dark:text-indigo-400 font-medium"
+                  : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
               }`}
             >
               <LinkIcon className="w-3 h-3" /> URL
@@ -92,8 +92,8 @@ export const ImageManager: React.FC<ImageManagerProps> = ({
               onClick={() => setMode("file")}
               className={`flex items-center gap-1 pb-1 border-b-2 transition-colors ${
                 mode === "file"
-                  ? "border-indigo-600 text-indigo-600 font-medium"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
+                  ? "border-indigo-600 dark:border-indigo-400 text-indigo-600 dark:text-indigo-400 font-medium"
+                  : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
               }`}
             >
               <Upload className="w-3 h-3" /> Upload
@@ -107,18 +107,18 @@ export const ImageManager: React.FC<ImageManagerProps> = ({
                 value={inputUrl}
                 onChange={(e) => setInputUrl(e.target.value)}
                 placeholder="Paste image URL..."
-                className="flex-1 text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="flex-1 text-sm border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 onKeyDown={(e) => e.key === "Enter" && handleAddUrl()}
               />
               <button
                 onClick={handleAddUrl}
-                className="bg-indigo-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-indigo-700"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg text-sm"
               >
                 Add
               </button>
               <button
                 onClick={addRandomMock}
-                className="bg-gray-100 text-gray-600 px-3 py-2 rounded-lg text-sm hover:bg-gray-200"
+                className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-3 py-2 rounded-lg text-sm hover:bg-gray-200 dark:hover:bg-gray-600"
                 title="Add Random Mock"
               >
                 Mock
@@ -126,18 +126,18 @@ export const ImageManager: React.FC<ImageManagerProps> = ({
             </div>
           ) : (
             <div className="flex items-center justify-center w-full">
-              <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+              <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 dark:border-gray-700 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   {uploading ? (
                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
                   ) : (
                     <>
-                      <Upload className="w-6 h-6 text-gray-400 mb-2" />
-                      <p className="text-xs text-gray-500">
+                      <Upload className="w-6 h-6 text-gray-400 dark:text-gray-500 mb-2" />
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
                         <span className="font-semibold">Click to upload</span> or
                         drag and drop
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
                         PNG, JPG, GIF up to 5MB
                       </p>
                     </>
@@ -160,7 +160,7 @@ export const ImageManager: React.FC<ImageManagerProps> = ({
         {images.map((url, idx) => (
           <div
             key={idx}
-            className="relative group aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200"
+            className="relative group aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700"
           >
             <img
               src={url}
@@ -190,8 +190,10 @@ export const ImageManager: React.FC<ImageManagerProps> = ({
           </div>
         ))}
         {images.length === 0 && !isAdding && (
-          <div className="col-span-3 py-4 text-center border-2 border-dashed border-gray-200 rounded-lg">
-            <p className="text-xs text-gray-400">No images yet</p>
+          <div className="col-span-3 py-4 text-center border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg">
+            <p className="text-xs text-gray-400 dark:text-gray-500">
+              No images yet
+            </p>
           </div>
         )}
       </div>

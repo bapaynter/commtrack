@@ -51,7 +51,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
       <button
         onClick={handleLogout}
         disabled={isLoading}
-        className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-red-600 transition-colors"
+        className="flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
       >
         {isLoading ? (
           <Loader2 className="w-4 h-4 animate-spin" />
@@ -71,13 +71,13 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
-          className="px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:border-indigo-500 w-32"
+          className="px-2 py-1 text-sm border border-gray-300 dark:border-gray-700 rounded focus:outline-none focus:border-indigo-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-32"
           autoFocus
         />
         <button
           type="submit"
           disabled={isLoading}
-          className="text-indigo-600 hover:text-indigo-700"
+          className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
         >
           {isLoading ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -91,12 +91,12 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
             setShowInput(false);
             setError("");
           }}
-          className="text-gray-400 hover:text-gray-600 text-xs"
+          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xs"
         >
           Cancel
         </button>
         {error && (
-          <span className="absolute top-full right-0 mt-1 text-xs text-red-500 bg-white p-1 rounded shadow-sm border border-red-100">
+          <span className="absolute top-full right-0 mt-1 text-xs text-red-500 dark:text-red-400 bg-white dark:bg-gray-800 p-1 rounded shadow-sm border border-red-100 dark:border-red-900/30">
             {error}
           </span>
         )}
@@ -107,7 +107,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
   return (
     <button
       onClick={() => setShowInput(true)}
-      className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-indigo-600 transition-colors"
+      className="flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
     >
       <LogIn className="w-4 h-4" />
       Login

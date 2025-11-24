@@ -42,9 +42,9 @@ const CommissionCard = ({
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           onClick={() => isAuthenticated && onEdit(item)}
-          className={`bg-white p-4 rounded-lg shadow-sm border border-gray-100 ${
+          className={`bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 ${
             isAuthenticated ? "cursor-pointer hover:shadow-md" : ""
-          } transition-shadow group relative mb-3 ${
+          } transition-all group relative mb-3 ${
             snapshot.isDragging
               ? "shadow-lg ring-2 ring-indigo-500 rotate-2"
               : ""
@@ -54,13 +54,13 @@ const CommissionCard = ({
           }}
         >
           <div className="flex justify-between items-start mb-2">
-            <h4 className="font-bold text-gray-800 line-clamp-1">
+            <h4 className="font-bold text-gray-800 dark:text-gray-100 line-clamp-1">
               {item.title}
             </h4>
             <StatusBadge status={item.paymentStatus} type="payment" />
           </div>
-          <p className="text-sm text-gray-500 mb-3 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-500"></span>
             {item.clientName}
           </p>
 
@@ -76,20 +76,20 @@ const CommissionCard = ({
                   <img
                     key={i}
                     src={url}
-                    className="w-6 h-6 rounded-full ring-2 ring-white object-cover"
+                    className="w-6 h-6 rounded-full ring-2 ring-white dark:ring-gray-800 object-cover"
                     alt=""
                   />
                 ))}
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-2 border-t border-gray-50">
+          <div className="flex items-center justify-between pt-2 border-t border-gray-50 dark:border-gray-700">
             {isAuthenticated && (
-              <span className="font-semibold text-gray-900">
+              <span className="font-semibold text-gray-900 dark:text-gray-100">
                 {formatCurrency(item.price)}
               </span>
             )}
-            <div className="text-xs text-gray-400">
+            <div className="text-xs text-gray-400 dark:text-gray-500">
               {new Date(item.createdAt).toLocaleDateString()}
             </div>
           </div>
@@ -113,9 +113,9 @@ const KanbanColumn = ({
   isAuthenticated: boolean;
 }) => (
   <div className="flex-1 min-w-[300px] flex flex-col h-full">
-    <div className="bg-gray-50 rounded-xl p-4 flex flex-col h-full">
+    <div className="bg-gray-50 dark:bg-gray-900/50 rounded-xl p-4 flex flex-col h-full transition-colors">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-gray-700 flex items-center gap-2">
+        <h3 className="font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
           {status === CommissionStatus.REQUESTED && (
             <Briefcase className="w-4 h-4" />
           )}
@@ -127,7 +127,7 @@ const KanbanColumn = ({
           )}
           {title}
         </h3>
-        <span className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full text-xs font-bold">
+        <span className="bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-full text-xs font-bold">
           {items.length}
         </span>
       </div>
@@ -138,7 +138,9 @@ const KanbanColumn = ({
             ref={provided.innerRef}
             {...provided.droppableProps}
             className={`flex-1 overflow-y-auto custom-scrollbar pr-1 transition-colors rounded-lg ${
-              snapshot.isDraggingOver ? "bg-gray-100/50" : ""
+              snapshot.isDraggingOver
+                ? "bg-gray-100/50 dark:bg-gray-800/50"
+                : ""
             }`}
             style={{ minHeight: "100px" }}
           >
@@ -153,7 +155,7 @@ const KanbanColumn = ({
             ))}
             {provided.placeholder}
             {items.length === 0 && !snapshot.isDraggingOver && (
-              <div className="h-24 border-2 border-dashed border-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-sm">
+              <div className="h-24 border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-600 text-sm">
                 Empty
               </div>
             )}
@@ -217,9 +219,9 @@ export const CommissionBoard: React.FC<CommissionBoardProps> = ({
     return (
       <div className="flex gap-6 h-full overflow-x-auto pb-4">
         {/* Render a static skeleton or loading state to avoid hydration mismatch */}
-        <div className="flex-1 min-w-[300px] bg-gray-50 rounded-xl p-4 h-full animate-pulse"></div>
-        <div className="flex-1 min-w-[300px] bg-gray-50 rounded-xl p-4 h-full animate-pulse"></div>
-        <div className="flex-1 min-w-[300px] bg-gray-50 rounded-xl p-4 h-full animate-pulse"></div>
+        <div className="flex-1 min-w-[300px] bg-gray-50 dark:bg-gray-900 rounded-xl p-4 h-full animate-pulse"></div>
+        <div className="flex-1 min-w-[300px] bg-gray-50 dark:bg-gray-900 rounded-xl p-4 h-full animate-pulse"></div>
+        <div className="flex-1 min-w-[300px] bg-gray-50 dark:bg-gray-900 rounded-xl p-4 h-full animate-pulse"></div>
       </div>
     );
   }

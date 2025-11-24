@@ -88,7 +88,7 @@ export const CommissionForm: React.FC<CommissionFormProps> = ({
       {/* Basic Info Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
             Title *
           </label>
           <input
@@ -97,12 +97,12 @@ export const CommissionForm: React.FC<CommissionFormProps> = ({
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
             }
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
             placeholder="e.g., Fantasy Portrait"
           />
         </div>
         <div className="relative">
-          <label className="block text-xs font-medium text-gray-700 mb-1">
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
             Client Name *
           </label>
           <input
@@ -111,16 +111,16 @@ export const CommissionForm: React.FC<CommissionFormProps> = ({
             onChange={(e) =>
               setFormData({ ...formData, clientName: e.target.value })
             }
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
             placeholder="Client or Social Handle"
           />
         </div>
       </div>
 
       {/* Status & Price Section */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
             Price ($)
           </label>
           <div className="relative">
@@ -132,12 +132,12 @@ export const CommissionForm: React.FC<CommissionFormProps> = ({
               onChange={(e) =>
                 setFormData({ ...formData, price: Number(e.target.value) })
               }
-              className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              className="w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             />
           </div>
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
             Work Status
           </label>
           <select
@@ -148,7 +148,7 @@ export const CommissionForm: React.FC<CommissionFormProps> = ({
                 status: e.target.value as CommissionStatus,
               })
             }
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
           >
             {Object.values(CommissionStatus).map((s) => (
               <option key={s} value={s}>
@@ -158,7 +158,7 @@ export const CommissionForm: React.FC<CommissionFormProps> = ({
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
             Payment Status
           </label>
           <select
@@ -169,7 +169,7 @@ export const CommissionForm: React.FC<CommissionFormProps> = ({
                 paymentStatus: e.target.value as PaymentStatus,
               })
             }
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
           >
             {Object.values(PaymentStatus).map((s) => (
               <option key={s} value={s}>
@@ -183,7 +183,7 @@ export const CommissionForm: React.FC<CommissionFormProps> = ({
       {/* Description */}
       <div className="relative">
         <div className="flex items-center justify-between mb-1">
-          <label className="block text-xs font-medium text-gray-700">
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300">
             Notes / Description
           </label>
         </div>
@@ -193,14 +193,14 @@ export const CommissionForm: React.FC<CommissionFormProps> = ({
           onChange={(e) =>
             setFormData({ ...formData, description: e.target.value })
           }
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           placeholder="E.g., Red dragon fighting a knight, sunny day..."
         ></textarea>
       </div>
 
       {/* Images Section */}
-      <div className="border-t border-gray-100 pt-4">
-        <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+      <div className="border-t border-gray-100 dark:border-gray-800 pt-4">
+        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">
           <ImageIcon className="w-4 h-4" /> Gallery
         </h3>
 
@@ -257,11 +257,11 @@ export const CommissionForm: React.FC<CommissionFormProps> = ({
       </div>
 
       {/* Footer Actions */}
-      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+      <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
         {initialData?.id ? (
           <button
             onClick={handleDelete}
-            className="text-red-600 hover:text-red-700 text-sm font-medium flex items-center gap-1 px-2 py-1 rounded hover:bg-red-50 transition-colors"
+            className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium flex items-center gap-1 px-2 py-1 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
           >
             <Trash2 className="w-4 h-4" /> Delete
           </button>
@@ -272,7 +272,7 @@ export const CommissionForm: React.FC<CommissionFormProps> = ({
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm font-medium"
+            className="px-4 py-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 text-sm font-medium"
           >
             Cancel
           </button>

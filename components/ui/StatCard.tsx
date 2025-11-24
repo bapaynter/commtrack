@@ -57,10 +57,14 @@ export const StatCard: React.FC<StatCardProps> = ({
   // That seems redundant but works.
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+    <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 flex items-center justify-between transition-colors">
       <div>
-        <p className="text-sm text-gray-500 font-medium">{title}</p>
-        <h3 className="text-2xl font-bold text-gray-900 mt-1">{value}</h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+          {title}
+        </p>
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+          {value}
+        </h3>
       </div>
       <div className={cn("p-3 rounded-full bg-opacity-10", colorClass)}>
         <Icon

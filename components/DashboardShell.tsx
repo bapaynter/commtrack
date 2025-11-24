@@ -19,6 +19,7 @@ import { CommissionList } from "./CommissionList";
 import { StatsDashboard } from "./StatsDashboard";
 import { formatCurrency } from "@/lib/utils";
 import { LoginButton } from "./LoginButton";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface DashboardShellProps {
   initialCommissions: Commission[];
@@ -84,25 +85,25 @@ export default function DashboardShell({
   }, [commissions, search, filter]);
 
   return (
-    <div className="h-screen flex flex-col bg-white text-gray-900 font-sans">
+    <div className="h-screen flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans transition-colors">
       {/* Navbar */}
-      <header className="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between">
+      <header className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-6 py-4 flex items-center justify-between transition-colors">
         <div className="flex items-center gap-3">
           <div className="bg-indigo-600 p-2 rounded-lg">
             <Palette className="text-white w-5 h-5" />
           </div>
-          <h1 className="text-xl font-bold text-gray-800 tracking-tight">
+          <h1 className="text-xl font-bold text-gray-800 dark:text-white tracking-tight">
             ArtTrack
           </h1>
         </div>
 
-        <div className="flex items-center gap-4 bg-gray-100 p-1 rounded-lg">
+        <div className="flex items-center gap-4 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg transition-colors">
           <button
             onClick={() => setView("board")}
             className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
               view === "board"
-                ? "bg-white shadow-sm text-indigo-600"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-700 shadow-sm text-indigo-600 dark:text-indigo-400"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
             }`}
           >
             Board
@@ -111,8 +112,8 @@ export default function DashboardShell({
             onClick={() => setView("list")}
             className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
               view === "list"
-                ? "bg-white shadow-sm text-indigo-600"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-700 shadow-sm text-indigo-600 dark:text-indigo-400"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
             }`}
           >
             List
@@ -122,8 +123,8 @@ export default function DashboardShell({
               onClick={() => setView("stats")}
               className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
                 view === "stats"
-                  ? "bg-white shadow-sm text-indigo-600"
-                  : "text-gray-500 hover:text-gray-700"
+                  ? "bg-white dark:bg-gray-700 shadow-sm text-indigo-600 dark:text-indigo-400"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
               }`}
             >
               Stats
@@ -132,6 +133,7 @@ export default function DashboardShell({
         </div>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           {isAuthenticated && (
             <button
               onClick={() => openForm()}
@@ -147,7 +149,7 @@ export default function DashboardShell({
       {/* Main Content */}
       <main className="flex-1 overflow-hidden relative flex flex-col">
         {/* Stats Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-6 py-6 border-b border-gray-50 bg-gray-50/50 shrink-0">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-6 py-6 border-b border-gray-50 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50 shrink-0 transition-colors">
           {isAuthenticated && (
             <>
               <StatCard
@@ -189,7 +191,7 @@ export default function DashboardShell({
                 placeholder="Search client or title..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none w-full md:w-64"
+                className="pl-9 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none w-full md:w-64 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-colors"
               />
             </div>
             {view === "list" && (
@@ -198,7 +200,7 @@ export default function DashboardShell({
                 <select
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
-                  className="border-none bg-transparent text-sm font-medium text-gray-600 focus:ring-0 cursor-pointer"
+                  className="border-none bg-transparent text-sm font-medium text-gray-600 dark:text-gray-300 focus:ring-0 cursor-pointer"
                 >
                   <option value="All">All Statuses</option>
                   {Object.values(CommissionStatus).map((s) => (

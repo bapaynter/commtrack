@@ -30,20 +30,22 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
-      <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
-        <h2 className="text-lg font-bold text-gray-800 mb-6">
+      <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
+        <h2 className="text-lg font-bold text-gray-800 dark:text-white mb-6">
           Financial Breakdown
         </h2>
 
         <div className="space-y-4">
           <div>
             <div className="flex justify-between text-sm mb-1">
-              <span className="text-gray-600">Collection Rate</span>
-              <span className="font-bold text-gray-900">
+              <span className="text-gray-600 dark:text-gray-400">
+                Collection Rate
+              </span>
+              <span className="font-bold text-gray-900 dark:text-gray-100">
                 {Math.round((stats.paid / (stats.total || 1)) * 100)}%
               </span>
             </div>
-            <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+            <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
               <div
                 className="h-full bg-emerald-500 rounded-full"
                 style={{
@@ -54,19 +56,19 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({
           </div>
 
           <div className="grid grid-cols-2 gap-4 pt-4">
-            <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-              <p className="text-xs text-emerald-600 font-semibold uppercase">
+            <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-100 dark:border-emerald-900/30">
+              <p className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold uppercase">
                 Paid
               </p>
-              <p className="text-2xl font-bold text-emerald-800">
+              <p className="text-2xl font-bold text-emerald-800 dark:text-emerald-300">
                 {formatCurrency(stats.paid)}
               </p>
             </div>
-            <div className="p-4 bg-yellow-50 rounded-xl border border-yellow-100">
-              <p className="text-xs text-yellow-600 font-semibold uppercase">
+            <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-100 dark:border-yellow-900/30">
+              <p className="text-xs text-yellow-600 dark:text-yellow-400 font-semibold uppercase">
                 Unpaid / Pending
               </p>
-              <p className="text-2xl font-bold text-yellow-800">
+              <p className="text-2xl font-bold text-yellow-800 dark:text-yellow-300">
                 {formatCurrency(stats.pending)}
               </p>
             </div>
@@ -74,21 +76,21 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({
         </div>
       </div>
 
-      <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
-        <h2 className="text-lg font-bold text-gray-800 mb-6">
+      <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
+        <h2 className="text-lg font-bold text-gray-800 dark:text-white mb-6">
           Workload Distribution
         </h2>
 
         {/* Chart Area */}
-        <div className="flex items-end gap-4 h-48 border-b border-gray-200 pb-px">
+        <div className="flex items-end gap-4 h-48 border-b border-gray-200 dark:border-gray-800 pb-px">
           {/* Finished Bar */}
           <div className="flex-1 flex justify-center items-end h-full group relative">
-            <div className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-xs rounded py-1.5 px-3 shadow-lg pointer-events-none whitespace-nowrap z-10 flex flex-col items-center">
+            <div className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 dark:bg-gray-700 text-white text-xs rounded py-1.5 px-3 shadow-lg pointer-events-none whitespace-nowrap z-10 flex flex-col items-center">
               <span className="font-bold">{stats.finished} Finished</span>
               <span className="text-gray-300 text-[10px]">
                 {Math.round((stats.finished / (commissions.length || 1)) * 100)}%
               </span>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
             </div>
             <div
               style={{
@@ -102,12 +104,12 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({
 
           {/* Active Bar */}
           <div className="flex-1 flex justify-center items-end h-full group relative">
-            <div className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-xs rounded py-1.5 px-3 shadow-lg pointer-events-none whitespace-nowrap z-10 flex flex-col items-center">
+            <div className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 dark:bg-gray-700 text-white text-xs rounded py-1.5 px-3 shadow-lg pointer-events-none whitespace-nowrap z-10 flex flex-col items-center">
               <span className="font-bold">{stats.active} Active</span>
               <span className="text-gray-300 text-[10px]">
                 {Math.round((stats.active / (commissions.length || 1)) * 100)}%
               </span>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
             </div>
             <div
               style={{
@@ -119,7 +121,7 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({
 
           {/* Requested Bar */}
           <div className="flex-1 flex justify-center items-end h-full group relative">
-            <div className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-xs rounded py-1.5 px-3 shadow-lg pointer-events-none whitespace-nowrap z-10 flex flex-col items-center">
+            <div className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 dark:bg-gray-700 text-white text-xs rounded py-1.5 px-3 shadow-lg pointer-events-none whitespace-nowrap z-10 flex flex-col items-center">
               <span className="font-bold">{stats.requested} Requested</span>
               <span className="text-gray-300 text-[10px]">
                 {Math.round(
@@ -127,7 +129,7 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({
                 )}
                 %
               </span>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
             </div>
             <div
               style={{
@@ -135,7 +137,7 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({
                   (stats.requested / (commissions.length || 1)) * 100
                 }%`,
               }}
-              className="w-full max-w-[64px] bg-gray-300 rounded-t-lg min-h-[4px] transition-all duration-500 hover:bg-gray-400"
+              className="w-full max-w-[64px] bg-gray-300 dark:bg-gray-600 rounded-t-lg min-h-[4px] transition-all duration-500 hover:bg-gray-400 dark:hover:bg-gray-500"
             ></div>
           </div>
         </div>
@@ -143,13 +145,19 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({
         {/* Labels */}
         <div className="flex gap-4 mt-3">
           <div className="flex-1 text-center">
-            <span className="text-xs font-medium text-gray-500">Finished</span>
+            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+              Finished
+            </span>
           </div>
           <div className="flex-1 text-center">
-            <span className="text-xs font-medium text-gray-500">Active</span>
+            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+              Active
+            </span>
           </div>
           <div className="flex-1 text-center">
-            <span className="text-xs font-medium text-gray-500">Requested</span>
+            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+              Requested
+            </span>
           </div>
         </div>
       </div>
