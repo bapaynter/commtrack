@@ -68,10 +68,14 @@ export async function deleteCommission(id: string): Promise<void> {
   ];
 
   for (const url of allImages) {
-    if (url.startsWith("/uploads/")) {
+    // Handle both old (/uploads/) and new (/api/uploads/) paths
+    if (url.startsWith("/uploads/") || url.startsWith("/api/uploads/")) {
       try {
-        const filePath = path.join(process.cwd(), "public", url);
-        await fs.unlink(filePath);
+        const filename = url.split("/").pop();
+        if (filename) {
+          const filePath = path.join(process.cwd(), "uploads", filename);
+          await fs.unlink(filePath);
+        }
       } catch (error) {
         console.error(`Failed to delete file: ${url}`, error);
       }

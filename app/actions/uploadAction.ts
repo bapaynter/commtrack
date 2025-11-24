@@ -3,7 +3,7 @@
 import fs from "fs/promises";
 import path from "path";
 
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
+const UPLOAD_DIR = path.join(process.cwd(), "uploads");
 const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
@@ -35,7 +35,7 @@ export async function uploadImage(formData: FormData): Promise<string> {
     // Ensure upload directory exists
     await fs.mkdir(UPLOAD_DIR, { recursive: true });
     await fs.writeFile(filepath, buffer);
-    return `/uploads/${filename}`;
+    return `/api/uploads/${filename}`;
   } catch (error) {
     console.error("Error uploading file:", error);
     throw new Error("Failed to upload file");
