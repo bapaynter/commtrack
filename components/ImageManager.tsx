@@ -20,7 +20,7 @@ export const ImageManager: React.FC<ImageManagerProps> = ({
   const [inputUrl, setInputUrl] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [mode, setMode] = useState<"url" | "file">("url");
+  const [mode, setMode] = useState<"url" | "file">("file");
 
   const handleAddUrl = () => {
     if (inputUrl) {
