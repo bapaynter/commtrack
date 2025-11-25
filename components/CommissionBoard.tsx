@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Commission, CommissionStatus } from "@/types";
 import { StatusBadge } from "./ui/StatusBadge";
-import { Briefcase, Palette, CheckCircle } from "lucide-react";
+import { Briefcase, Palette, CheckCircle, X } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import {
   DragDropContext,
@@ -23,11 +23,13 @@ const CommissionCard = ({
   item,
   index,
   onEdit,
+  onPreviewImage,
   isAuthenticated,
 }: {
   item: Commission;
   index: number;
   onEdit: (commission: Commission) => void;
+  onPreviewImage: (url: string) => void;
   isAuthenticated: boolean;
 }) => {
   return (
@@ -69,7 +71,17 @@ const CommissionCard = ({
               <img
                 src={item.images.finals[0]}
                 alt="Final Piece"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                className={`w-full h-full object-cover transition-transform duration-300 ${
+                  isAuthenticated
+                    ? "hover:scale-105"
+                    : "cursor-zoom-in hover:opacity-90"
+                }`}
+                onClick={(e) => {
+                  if (!isAuthenticated) {
+                    e.stopPropagation();
+                    onPreviewImage(item.images.finals[0]);
+                  }
+                }}
               />
             </div>
           ) : (
@@ -88,7 +100,7 @@ const CommissionCard = ({
                         className="peer w-full h-full rounded-full ring-2 ring-white dark:ring-gray-800 object-cover cursor-zoom-in"
                         alt=""
                       />
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden peer-hover:block w-32 h-32 rounded-lg shadow-xl border-2 border-white dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden z-50 pointer-events-none">
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden peer-hover:block h-[300px] w-auto min-w-[200px] rounded-lg shadow-xl border-2 border-white dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden z-50 pointer-events-none">
                         <img
                           src={url}
                           className="w-full h-full object-cover"
@@ -122,12 +134,14 @@ const KanbanColumn = ({
   status,
   items,
   onEdit,
+  onPreviewImage,
   isAuthenticated,
 }: {
   title: string;
   status: CommissionStatus;
   items: Commission[];
   onEdit: (commission: Commission) => void;
+  onPreviewImage: (url: string) => void;
   isAuthenticated: boolean;
 }) => (
   <div className="flex-1 min-w-[300px] flex flex-col h-full">
@@ -168,6 +182,7 @@ const KanbanColumn = ({
                 item={item}
                 index={index}
                 onEdit={onEdit}
+                onPreviewImage={onPreviewImage}
                 isAuthenticated={isAuthenticated}
               />
             ))}
@@ -191,6 +206,7 @@ export const CommissionBoard: React.FC<CommissionBoardProps> = ({
 }) => {
   const [localCommissions, setLocalCommissions] = useState(commissions);
   const [isMounted, setIsMounted] = useState(false);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -326,6 +342,7 @@ export const CommissionBoard: React.FC<CommissionBoardProps> = ({
                 (a.order ?? 0) - (b.order ?? 0) || b.createdAt - a.createdAt
             )}
           onEdit={onEdit}
+          onPreviewImage={setPreviewImage}
           isAuthenticated={isAuthenticated}
         />
         <KanbanColumn
@@ -338,6 +355,7 @@ export const CommissionBoard: React.FC<CommissionBoardProps> = ({
                 (a.order ?? 0) - (b.order ?? 0) || b.createdAt - a.createdAt
             )}
           onEdit={onEdit}
+          onPreviewImage={setPreviewImage}
           isAuthenticated={isAuthenticated}
         />
         <KanbanColumn
@@ -350,9 +368,31 @@ export const CommissionBoard: React.FC<CommissionBoardProps> = ({
                 (a.order ?? 0) - (b.order ?? 0) || b.createdAt - a.createdAt
             )}
           onEdit={onEdit}
+          onPreviewImage={setPreviewImage}
           isAuthenticated={isAuthenticated}
         />
       </div>
+
+      {/* Lightbox */}
+      {previewImage && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+          onClick={() => setPreviewImage(null)}
+        >
+          <button
+            onClick={() => setPreviewImage(null)}
+            className="absolute top-4 right-4 text-white/70 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
+          >
+            <X className="w-8 h-8" />
+          </button>
+          <img
+            src={previewImage}
+            alt="Preview"
+            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </DragDropContext>
   );
 };
