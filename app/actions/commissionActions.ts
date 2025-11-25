@@ -8,7 +8,39 @@ import fs from "fs/promises";
 import path from "path";
 
 export async function fetchCommissions(): Promise<Commission[]> {
-  return await readDb();
+  const commissions = await readDb();
+  return commissions.sort((a, b) => {
+    const orderA = a.order ?? 0;
+    const orderB = b.order ?? 0;
+    if (orderA !== orderB) return orderA - orderB;
+    return b.createdAt - a.createdAt;
+  });
+}
+
+export async function batchUpdateCommissions(
+  updates: Partial<Commission>[]
+): Promise<void> {
+  const commissions = await readDb();
+  const now = Date.now();
+  let changed = false;
+
+  for (const update of updates) {
+    if (!update.id) continue;
+    const index = commissions.findIndex((c) => c.id === update.id);
+    if (index !== -1) {
+      commissions[index] = {
+        ...commissions[index],
+        ...update,
+        updatedAt: now,
+      } as Commission;
+      changed = true;
+    }
+  }
+
+  if (changed) {
+    await writeDb(commissions);
+    revalidatePath("/");
+  }
 }
 
 export async function persistCommission(
@@ -40,6 +72,7 @@ export async function persistCommission(
       id: randomUUID(),
       createdAt: now,
       updatedAt: now,
+      order: data.order ?? 0,
       // Ensure images structure exists if not provided
       images: data.images || { references: [], drafts: [], finals: [] },
     } as Commission;

@@ -11,7 +11,7 @@ import {
   Draggable,
   DropResult,
 } from "@hello-pangea/dnd";
-import { persistCommission } from "@/app/actions/commissionActions";
+import { persistCommission, batchUpdateCommissions } from "@/app/actions/commissionActions";
 
 interface CommissionBoardProps {
   commissions: Commission[];
@@ -212,24 +212,93 @@ export const CommissionBoard: React.FC<CommissionBoardProps> = ({
       return;
     }
 
-    const newStatus = destination.droppableId as CommissionStatus;
+    const startStatus = source.droppableId as CommissionStatus;
+    const finishStatus = destination.droppableId as CommissionStatus;
 
-    // Optimistic update
-    const updatedCommissions = localCommissions.map((c) => {
-      if (c.id === draggableId) {
-        return { ...c, status: newStatus };
+    // Clone to avoid mutation
+    const newCommissions = localCommissions.map((c) => ({ ...c }));
+
+    if (startStatus === finishStatus) {
+      const columnItems = newCommissions
+        .filter((c) => c.status === startStatus)
+        .sort(
+          (a, b) => (a.order ?? 0) - (b.order ?? 0) || b.createdAt - a.createdAt
+        );
+
+      const [movedItem] = columnItems.splice(source.index, 1);
+      columnItems.splice(destination.index, 0, movedItem);
+
+      const updates: Partial<Commission>[] = [];
+      columnItems.forEach((item, index) => {
+        item.order = index;
+        updates.push({ id: item.id, order: index });
+      });
+
+      setLocalCommissions((prev) =>
+        prev.map((p) => {
+          const updated = columnItems.find((c) => c.id === p.id);
+          return updated ? updated : p;
+        })
+      );
+
+      try {
+        await batchUpdateCommissions(updates);
+      } catch (error) {
+        console.error("Failed to reorder commissions", error);
+        setLocalCommissions(commissions);
       }
-      return c;
-    });
+    } else {
+      const sourceItems = newCommissions
+        .filter((c) => c.status === startStatus)
+        .sort(
+          (a, b) => (a.order ?? 0) - (b.order ?? 0) || b.createdAt - a.createdAt
+        );
 
-    setLocalCommissions(updatedCommissions);
+      const destItems = newCommissions
+        .filter((c) => c.status === finishStatus)
+        .sort(
+          (a, b) => (a.order ?? 0) - (b.order ?? 0) || b.createdAt - a.createdAt
+        );
 
-    try {
-      await persistCommission({ id: draggableId, status: newStatus });
-    } catch (error) {
-      console.error("Failed to update commission status", error);
-      // Revert to props on error
-      setLocalCommissions(commissions);
+      const [movedItem] = sourceItems.splice(source.index, 1);
+      movedItem.status = finishStatus;
+      destItems.splice(destination.index, 0, movedItem);
+
+      const updates: Partial<Commission>[] = [];
+
+      // Update destination orders
+      destItems.forEach((item, index) => {
+        item.order = index;
+        const update: Partial<Commission> = { id: item.id, order: index };
+        if (item.id === movedItem.id) {
+          update.status = finishStatus;
+        }
+        updates.push(update);
+      });
+
+      // Update source orders
+      sourceItems.forEach((item, index) => {
+        item.order = index;
+        updates.push({ id: item.id, order: index });
+      });
+
+      setLocalCommissions((prev) =>
+        prev.map((p) => {
+          if (p.id === movedItem.id) return movedItem;
+          const destItem = destItems.find((d) => d.id === p.id);
+          if (destItem) return destItem;
+          const sourceItem = sourceItems.find((s) => s.id === p.id);
+          if (sourceItem) return sourceItem;
+          return p;
+        })
+      );
+
+      try {
+        await batchUpdateCommissions(updates);
+      } catch (error) {
+        console.error("Failed to move commission", error);
+        setLocalCommissions(commissions);
+      }
     }
   };
 
@@ -250,27 +319,36 @@ export const CommissionBoard: React.FC<CommissionBoardProps> = ({
         <KanbanColumn
           title="Requested"
           status={CommissionStatus.REQUESTED}
-          items={localCommissions.filter(
-            (c) => c.status === CommissionStatus.REQUESTED
-          )}
+          items={localCommissions
+            .filter((c) => c.status === CommissionStatus.REQUESTED)
+            .sort(
+              (a, b) =>
+                (a.order ?? 0) - (b.order ?? 0) || b.createdAt - a.createdAt
+            )}
           onEdit={onEdit}
           isAuthenticated={isAuthenticated}
         />
         <KanbanColumn
           title="In Progress"
           status={CommissionStatus.STARTED}
-          items={localCommissions.filter(
-            (c) => c.status === CommissionStatus.STARTED
-          )}
+          items={localCommissions
+            .filter((c) => c.status === CommissionStatus.STARTED)
+            .sort(
+              (a, b) =>
+                (a.order ?? 0) - (b.order ?? 0) || b.createdAt - a.createdAt
+            )}
           onEdit={onEdit}
           isAuthenticated={isAuthenticated}
         />
         <KanbanColumn
           title="Completed"
           status={CommissionStatus.FINISHED}
-          items={localCommissions.filter(
-            (c) => c.status === CommissionStatus.FINISHED
-          )}
+          items={localCommissions
+            .filter((c) => c.status === CommissionStatus.FINISHED)
+            .sort(
+              (a, b) =>
+                (a.order ?? 0) - (b.order ?? 0) || b.createdAt - a.createdAt
+            )}
           onEdit={onEdit}
           isAuthenticated={isAuthenticated}
         />

@@ -25,6 +25,7 @@ export interface Commission {
   paymentStatus: PaymentStatus;
   description: string;
   images: CommissionImages;
+  order: number;
   createdAt: number; // Unix timestamp
   updatedAt: number; // Unix timestamp
 }
